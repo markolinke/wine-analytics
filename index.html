@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analitika vina — reducirajući šećeri</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <div id="login-gate" class="login-gate">
+      <div class="login-panel panel">
+        <h1>Analitika vina</h1>
+        <p class="subtitle">Prijava za pristup analizi</p>
+        <form id="login-form" class="login-form" autocomplete="off">
+          <label class="login-field">
+            <span>Korisničko ime</span>
+            <input
+              type="text"
+              id="login-username"
+              name="username"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-1p-ignore
+              required
+            />
+          </label>
+          <label class="login-field">
+            <span>Lozinka</span>
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              autocomplete="off"
+              spellcheck="false"
+              data-1p-ignore
+              required
+            />
+          </label>
+          <p id="login-error" class="login-error" role="alert"></p>
+          <button type="submit" class="saved-action-btn saved-action-primary login-submit">
+            Prijava
+          </button>
+        </form>
+        <p class="hint login-hint">
+          Ako 1Password ili drugi manager lozinki ne radi, upišite podatke ručno (copy/paste).
+        </p>
+      </div>
+    </div>
+
+    <div id="app" class="layout" hidden>
+      <header class="header">
+        <div class="header-top">
+          <div>
+            <h1>Analitika vina</h1>
+            <p class="subtitle">Trendovi reducirajućih šećera i ostalih vrijednosti</p>
+          </div>
+          <button type="button" id="logout-btn" class="logout-btn">Odjava</button>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+        <p id="row-count" class="row-count"></p>
+      </header>
+
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Analiza</h2>
+          <div id="analysis-controls"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Pravila za redove i grupe</h2>
+          <label class="control-row" for="exclude-sugar-above">
+            Isključi redove gdje reducirajući šećeri &gt;
+            <input
+              type="number"
+              id="exclude-sugar-above"
+              step="0.1"
+              min="0"
+              placeholder="npr. 20"
+            />
+            g/L
+          </label>
+          <label class="control-row" for="min-sample-count">
+            Ne prikazuj grupe s manje od
+            <input
+              type="number"
+              id="min-sample-count"
+              step="1"
+              min="1"
+              placeholder="npr. 5"
+            />
+            uzoraka
+          </label>
+          <p class="hint">Grupa = kombinacija godine (os X) i serije / facet panela.</p>
+        </section>
+
+        <section class="panel">
+          <h2>Filtri dimenzija</h2>
+          <div id="dimension-filters" class="filters"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Usporedba (facet)</h2>
+          <div id="facet-controls"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Spremljene analize</h2>
+          <div id="saved-analyses"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Podaci</h2>
+          <div id="data-controls"></div>
+        </section>
+      </aside>
+
+      <main class="main">
+        <section class="panel chart-panel">
+          <h2>Glavni graf</h2>
+          <div class="main-chart-wrap">
+            <canvas id="main-chart"></canvas>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Usporedni grafovi</h2>
+          <p class="hint">Odaberite dimenziju u bočnoj traci; svaki panel = jedna vrijednost.</p>
+          <div id="facet-grid" class="facet-grid"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Tablica agregata</h2>
+          <div class="table-wrap">
+            <table id="data-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/auth-gate.js"></script>
+  </body>
+</html>
